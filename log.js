@@ -88,12 +88,21 @@ const findLogByUserId = async (logId, queryParams, done) => {
     whereDate.$lte = new Date(to);
   }
   let where = { _id: logId };
-  if ( Object.keys(whereDate).length > 0) {
-    where = { _id: logId, 'log.date': whereDate};
+  if (Object.keys(whereDate).length > 0) {
+    where = { _id: logId, "log.date": whereDate };
+    await Log.findOne(where)
+      .select({ "log.$": limit })
+
+      .then(function (log) {
+        done(null, log);
+      })
+      .catch(function (err) {
+        console.error(err);
+        done(err, null);
+      });
   }
   console.log("🚀 ~ file: log.js:95 ~ findLogByUserId ~ where:", where);
   await Log.findOne(where)
-    .select({ "log.$": limit })
     .then(function (log) {
       done(null, log);
     })
