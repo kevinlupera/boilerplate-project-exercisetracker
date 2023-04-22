@@ -92,7 +92,16 @@ const findLogByUserId = async (logId, queryParams, done) => {
     where = { _id: logId, "log.date": whereDate };
     await Log.findOne(where)
       .select({ "log.$": limit })
-
+      .then(function (log) {
+        done(null, log);
+      })
+      .catch(function (err) {
+        console.error(err);
+        done(err, null);
+      });
+  } else {
+    console.log("🚀 ~ file: log.js:95 ~ findLogByUserId ~ where:", where);
+    await Log.findOne(where)
       .then(function (log) {
         done(null, log);
       })
@@ -101,15 +110,6 @@ const findLogByUserId = async (logId, queryParams, done) => {
         done(err, null);
       });
   }
-  console.log("🚀 ~ file: log.js:95 ~ findLogByUserId ~ where:", where);
-  await Log.findOne(where)
-    .then(function (log) {
-      done(null, log);
-    })
-    .catch(function (err) {
-      console.error(err);
-      done(err, null);
-    });
 };
 
 const removeById = (logId, done) => {
