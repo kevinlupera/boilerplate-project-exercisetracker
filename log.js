@@ -88,7 +88,7 @@ const findLogByUserId = async (logId, queryParams, done) => {
     whereDate.$lte = new Date(to);
   }
   let where = { _id: logId };
-  if ( Object.keys(whereDate).length === 0) {
+  if ( Object.keys(whereDate).length > 0) {
     where = { _id: logId, 'log.date': whereDate};
   }
   console.log("🚀 ~ file: log.js:95 ~ findLogByUserId ~ where:", where);
