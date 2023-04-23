@@ -83,23 +83,23 @@ const findLogByUserId = async (logId, queryParams, done) => {
   let whereDate = {};
   
   if (to) {
-    whereDate.$gte = new Date(to);
+    whereDate.$lt = new Date(to);
   }
   if (from) {
-    whereDate.$lte = new Date(from);
+    whereDate.$gt = new Date(from);
   }
   let where = { _id: logId };
   if (Object.keys(whereDate).length > 0) {
     where = { _id: logId, "log.date": whereDate };
     await Log.findOne(where)
       // .select({"log.$": limit })
-      .slice('log', limit)
+      .slice('log', 1)
       .then(function (log) {
         console.log("🚀 ~ file: log.js:106 ~ log:", log)
         let logResult = {
           _id: log._id,
           username: log.username,
-          count: log.count,
+          count: log.log.length,
         };
         let excersisesResult = [];
         log.log.map((exercise) => {
