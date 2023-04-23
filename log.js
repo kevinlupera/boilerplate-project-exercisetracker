@@ -83,10 +83,10 @@ const findLogByUserId = async (logId, queryParams, done) => {
   let whereDate = {};
   
   if (to) {
-    whereDate.$lte = new Date(to);
+    whereDate.$gte = new Date(to);
   }
   if (from) {
-    whereDate.$gte = new Date(from);
+    whereDate.$lte = new Date(from);
   }
   let where = { _id: logId };
   if (Object.keys(whereDate).length > 0) {
@@ -122,7 +122,7 @@ const findLogByUserId = async (logId, queryParams, done) => {
         done(err, null);
       });
   } else if (limit != 1000) {
-    where = { _id: logId, "log.date": where };
+    where = { _id: logId};
     await Log.findOne(where)
       .slice('log', limit)
       .then(function (log) {
