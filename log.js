@@ -93,7 +93,7 @@ const findLogByUserId = async (logId, queryParams, done) => {
     where = { _id: logId, "log.date": whereDate };
     await Log.findOne(where)
       // .select({"log.$": limit })
-      .slice('log', 1)
+      // .slice('log', 1)
       .then(function (log) {
         console.log("🚀 ~ file: log.js:106 ~ log:", log)
         let logResult = {
