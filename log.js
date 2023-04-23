@@ -103,7 +103,26 @@ const findLogByUserId = async (logId, queryParams, done) => {
     console.log("🚀 ~ file: log.js:95 ~ findLogByUserId ~ where:", where);
     await Log.findOne(where)
       .then(function (log) {
-        done(null, log);
+        let logResult = {
+          _id: log._id,
+          username: log.username,
+          count: log.count,
+        };
+        let excersisesResult = [];
+        log.log.map((exercise) => {
+          console.log(
+            "🚀 ~ file: log.js:107 ~ log.log.map ~ exercise:",
+            exercise
+          );
+          excersisesResult.push({
+            date: exercise.date.toDateString(),
+            description: exercise.description,
+            duration: exercise.duration,
+          });
+        });
+        logResult.log = excersisesResult;
+        console.log("🚀 ~ file: log.js:109 ~ log.log.map ~ log:", logResult);
+        done(null, logResult);
       })
       .catch(function (err) {
         console.error(err);
