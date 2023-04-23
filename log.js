@@ -108,9 +108,9 @@ const findLogByUserId = async (logId, queryParams, done) => {
             exercise
           );
           excersisesResult.push({
-            date: exercise.date.toDateString(),
             description: exercise.description,
             duration: exercise.duration,
+            date: exercise.date.toDateString(),
           });
         });
         logResult.log = excersisesResult;
@@ -139,9 +139,10 @@ const findLogByUserId = async (logId, queryParams, done) => {
             exercise
           );
           excersisesResult.push({
-            date: exercise.date.toDateString(),
             description: exercise.description,
             duration: exercise.duration,
+            date: exercise.date.toDateString(),
+
           });
         });
         logResult.log = excersisesResult;
@@ -170,9 +171,9 @@ const findLogByUserId = async (logId, queryParams, done) => {
             exercise
           );
           excersisesResult.push({
-            date: exercise.date.toDateString(),
             description: exercise.description,
             duration: exercise.duration,
+            date: exercise.date.toDateString(),
           });
         });
         logResult.log = excersisesResult;
