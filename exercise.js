@@ -128,12 +128,9 @@ const createAndSaveExercise = async (_id, data, done) => {
     console.log("🚀 ~ file: exercise.js:127 ~ logSearch:", logSearch);
     logData.count = logSearch ? logSearch.log.length + 1 : 1;
     let update = {};
-    if (logSearch) {
       // console.log("🚀 ~ file: exercise.js:132 ~ logSearch.log:", logSearch.log)
       update =  { "$push": { log: exerciseData }, username: data.username, count: logData.count };
       console.log("🚀 ~ file: exercise.js:132 ~ update:", update);
-    }
-
     // `doc` is the document _after_ `update` was applied because of
     // `returnOriginal: false`
     logData = await Log.findOneAndUpdate(filter, update, {
