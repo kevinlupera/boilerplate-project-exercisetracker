@@ -130,7 +130,7 @@ const findLogByUserId = async (logId, queryParams, done) => {
         let logResult = {
           _id: log._id,
           username: log.username,
-          count: log.count,
+          count: log.log.length,
         };
         let excersisesResult = [];
         log.log.map((exercise) => {
