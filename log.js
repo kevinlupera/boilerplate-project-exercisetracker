@@ -89,7 +89,7 @@ const findLogByUserId = async (logId, queryParams, done) => {
     whereDate.$gte = new Date(from);
   }
   let where = { _id: logId };
-  if (Object.keys(wherelimit).length > 0) {
+  if (Object.keys(whereDate).length > 0) {
     where = { _id: logId, "log.date": whereDate };
     await Log.findOne(where)
       // .select({"log.$": limit })
