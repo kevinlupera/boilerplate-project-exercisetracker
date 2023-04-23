@@ -79,7 +79,7 @@ const findAll = async (done) => {
 const findLogByUserId = async (logId, queryParams, done) => {
   const from = queryParams.from ? new Date(queryParams.from) : null;
   const to = queryParams.to ? new Date(queryParams.to) : null;
-  const limit = queryParams.limit ? Number(queryParams.limit) : 100;
+  const limit = queryParams.limit ? Number(queryParams.limit) : 1000;
   let whereDate = {};
   if (from) {
     whereDate.$gte = new Date(from);
@@ -88,7 +88,7 @@ const findLogByUserId = async (logId, queryParams, done) => {
     whereDate.$lte = new Date(to);
   }
   let where = { _id: logId };
-  if (Object.keys(whereDate).length > 0) {
+  if (Object.keys(wherelimit).length > 0) {
     where = { _id: logId, "log.date": whereDate };
     await Log.findOne(where)
       // .select({"log.$": limit })
@@ -120,7 +120,39 @@ const findLogByUserId = async (logId, queryParams, done) => {
         console.error(err);
         done(err, null);
       });
-  } else {
+  } else if (limit != 1000) {
+    where = { _id: logId, "log.date": where };
+    await Log.findOne(where)
+      .slice('log', limit)
+      .then(function (log) {
+        console.log("🚀 ~ file: log.js:106 ~ log:", log)
+        let logResult = {
+          _id: log._id,
+          username: log.username,
+          count: log.count,
+        };
+        let excersisesResult = [];
+        log.log.map((exercise) => {
+          console.log(
+            "🚀 ~ file: log.js:107 ~ log.log.map ~ exercise:",
+            exercise
+          );
+          excersisesResult.push({
+            date: exercise.date.toDateString(),
+            description: exercise.description,
+            duration: exercise.duration,
+          });
+        });
+        logResult.log = excersisesResult;
+        console.log("🚀 ~ file: log.js:109 ~ log.log.map ~ log:", logResult);
+        done(null, logResult);
+      })
+      .catch(function (err) {
+        console.error(err);
+        done(err, null);
+      });
+  }
+   else {
     console.log("🚀 ~ file: log.js:95 ~ findLogByUserId ~ where:", where);
     await Log.findOne(where)
       .then(function (log) {
