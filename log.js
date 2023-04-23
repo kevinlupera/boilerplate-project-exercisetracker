@@ -81,11 +81,12 @@ const findLogByUserId = async (logId, queryParams, done) => {
   const to = queryParams.to ? new Date(queryParams.to) : null;
   const limit = queryParams.limit ? Number(queryParams.limit) : 1000;
   let whereDate = {};
-  if (from) {
-    whereDate.$gte = new Date(from);
-  }
+  
   if (to) {
     whereDate.$lte = new Date(to);
+  }
+  if (from) {
+    whereDate.$gte = new Date(from);
   }
   let where = { _id: logId };
   if (Object.keys(wherelimit).length > 0) {
